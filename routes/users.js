@@ -14,6 +14,11 @@ router.get('/userlist', function (req, res) {
 
 /* POST to adduser. */
 router.post('/adduser', async function (req, res) {
+  const validator = require('validator');
+const email = req.body.email;
+if (!validator.isEmail(email)) {
+  return res.status(400).send('Invalid email');
+}// added validation for email format
   var db = req.db;
   var collection = db.get('userlist');
 
@@ -22,7 +27,10 @@ router.post('/adduser', async function (req, res) {
   if (user) {
     res.send({ msg: "duplicate username" });
   } else {
-    collection.insert(req.body, function (err, result) {
+    const bcrypt = require('bcrypt');
+const hashedPassword = await bcrypt.hash(req.body.password, 10);
+const newUser = { ...req.body, password: hashedPassword }; //deepcopy req.body and replace password with hashed password
+collection.insert(newUser, function (err, result) {
       res.send(
         (err === null) ? { msg: '' } : { msg: err }
       );
@@ -67,9 +75,12 @@ router.post('/session', async function (req, res) {
             `Session.login success: ${req.session.user.username}`
           );
           // If a match, return 200:{ username }
-          res.status(200).send({
-            username: user.username,
-          });
+          const jwt = require('jsonwebtoken');
+const token = jwt.sign({ id: user._id }, 'your-secret-key');
+res.status(200).send({
+  username: user.username,
+  token: token,
+});// added JWT token generation for authentication
         });
       } catch (err) {
         console.log(err);
