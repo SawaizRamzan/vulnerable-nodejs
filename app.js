@@ -1,5 +1,7 @@
 let createError = require('http-errors');
 let express = require('express');
+const cors = require('cors'); // restrict cross-origin access
+const rateLimit = require('express-rate-limit'); //add rate limiting to prevent brute-force attacks
 let helmet = require('helmet'); //add security headers 
 let session = require('express-session');
 let path = require('path');
@@ -26,10 +28,37 @@ app.use(helmet({
     directives: {
       defaultSrc: ["'self'"],
       scriptSrc: ["'self'", "https://ajax.googleapis.com"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:"],
+      fontSrc: ["'self'"],
+      objectSrc: ["'none'"],
     }
   },
+  hsts: {
+    maxAge: 31536000,
+    includeSubDomains: true,
+    preload: true
+  },
   crossOriginResourcePolicy: false
-})); //add security header and whitelist ajax.googleapis.com for loading external scripts
+})); // Disable Cross-Origin-Resource-Policy to allow loading images from external sources
+
+// Rate limiting - max 10 requests per 15 minutes on login
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  message: 'Too many login attempts. Please try again after 15 minutes.',
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+app.use('/users/session', loginLimiter);
+// CORS - only allow requests from our own frontend
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+app.use(cors(corsOptions));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

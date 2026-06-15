@@ -1,10 +1,54 @@
 var express = require('express');
 var router = express.Router();
 
+// JWT verification middleware
+const jwt = require('jsonwebtoken');
+function verifyToken(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (!token) {
+    return res.status(401).json({ msg: 'Access denied. No token provided.' });
+  }
+  try {
+    const verified = jwt.verify(token, 'your-secret-key');
+    req.user = verified;
+    next();
+  } catch (err) {
+    return res.status(403).json({ msg: 'Invalid or expired token.' });
+  }
+}
+
+// Failed login attempt tracker
+const failedLoginAttempts = {};
+
+function trackFailedLogin(username) {
+  if (!failedLoginAttempts[username]) {
+    failedLoginAttempts[username] = { count: 0, lastAttempt: null };
+  }
+  failedLoginAttempts[username].count += 1;
+  failedLoginAttempts[username].lastAttempt = new Date();
+
+  if (failedLoginAttempts[username].count >= 3) {
+    console.warn(`[ALERT] Multiple failed logins for user: "${username}" - Total attempts: ${failedLoginAttempts[username].count}`);
+  }
+}
+
 // -------------------------------admin support-------------------------------
 
 /* GET userlist. */
 router.get('/userlist', function (req, res) {
+  if (!req.session.user) {
+    return res.status(401).json({ msg: 'Access denied. Please login first.' });
+  }
+  var db = req.db;
+  var collection = db.get('userlist');
+  collection.find({}, {}, function (e, docs) {
+    res.json(docs);
+  });
+});
+
+/* GET userlist via JWT - for external API access */
+router.get('/api/userlist', verifyToken, function (req, res) {
   var db = req.db;
   var collection = db.get('userlist');
   collection.find({}, {}, function (e, docs) {
@@ -64,9 +108,16 @@ router.post('/session', async function (req, res) {
     var db = req.db;
     var collection = db.get('userlist');
     var user = await collection.findOne({ username: req.body.username, password: req.body.password });
-    if (!user) {
-      res.send({ msg: "unauthorized" });
-    } else {
+if (!user) {
+  trackFailedLogin(req.body.username); // track failed login attempt
+  const attempts = failedLoginAttempts[req.body.username]?.count || 0;
+  if (attempts >= 5) {
+    return res.status(429).send({ msg: "Account temporarily locked due to multiple failed attempts." });
+  }
+  res.send({ msg: "unauthorized" });
+} else {
+  // reset counter on successful login
+  delete failedLoginAttempts[req.body.username];
       // sucessfully login
       try {
         req.session.regenerate(() => {

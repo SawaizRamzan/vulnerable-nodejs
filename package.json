@@ -9,8 +9,10 @@
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cookie-parser": "~1.4.3",
+    "cors": "^2.8.6",
     "debug": "~2.6.9",
     "express": "~4.16.0",
+    "express-rate-limit": "^8.5.2",
     "express-session": "^1.17.0",
     "helmet": "^8.2.0",
     "http-errors": "~1.6.2",
