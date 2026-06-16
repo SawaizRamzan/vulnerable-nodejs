@@ -19,18 +19,16 @@ function verifyToken(req, res, next) {
 }
 
 // Failed login attempt tracker
+const winstonLogger = require('../logger');
 const failedLoginAttempts = {};
-
-function trackFailedLogin(username) {
+function trackFailedLogin(username, ip) {
   if (!failedLoginAttempts[username]) {
     failedLoginAttempts[username] = { count: 0, lastAttempt: null };
   }
   failedLoginAttempts[username].count += 1;
   failedLoginAttempts[username].lastAttempt = new Date();
 
-  if (failedLoginAttempts[username].count >= 3) {
-    console.warn(`[ALERT] Multiple failed logins for user: "${username}" - Total attempts: ${failedLoginAttempts[username].count}`);
-  }
+  winstonLogger.warn(`Failed login attempt for user: "${username}" from IP: ${ip} - Total attempts: ${failedLoginAttempts[username].count}`);
 }
 
 // -------------------------------admin support-------------------------------
@@ -109,7 +107,7 @@ router.post('/session', async function (req, res) {
     var collection = db.get('userlist');
     var user = await collection.findOne({ username: req.body.username });
 if (!user || !(await require('bcrypt').compare(req.body.password, user.password))) {
-  trackFailedLogin(req.body.username); // track failed login attempt
+  trackFailedLogin(req.body.username, req.ip); // track failed login attempt
   const attempts = failedLoginAttempts[req.body.username]?.count || 0;
   if (attempts >= 5) {
     return res.status(429).send({ msg: "Account temporarily locked due to multiple failed attempts." });
