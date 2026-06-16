@@ -6,3 +6,4 @@ const logger = winston.createLogger({
   ]
 });
 logger.info('Application started');
+module.exports = logger;
