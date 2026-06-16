@@ -110,20 +110,34 @@ All application events logged to both console and `security.log` file.
 
 ### 1. Intrusion Detection & Monitoring — Fail2Ban
 
-Configured Fail2Ban on Kali Linux to monitor SSH login failures and automatically ban attackers.
+Configured Fail2Ban on Kali Linux to monitor the web application's failed login attempts and automatically ban attackers.
 
-**Configuration (`/etc/fail2ban/jail.local`):**
+**Custom Filter (`/etc/fail2ban/filter.d/nodejs-auth.conf`):**
 ```ini
-[sshd]
-enabled  = true
-maxretry = 3
-bantime  = 300
-findtime = 60
+[Definition]
+failregex = Failed login attempt for user: .* from IP: <HOST> - Total attempts:
+ignoreregex =
 ```
 
-**Behaviour:** After 3 failed SSH login attempts within 60 seconds, the attacker's IP is banned for 5 minutes automatically using firewall rules.
+This regex parses the Winston JSON logs and extracts the attacker's IP address on each failed login.
 
-**Test result:** Mac IP `192.168.64.1` was successfully detected and banned after 3 failed attempts, then manually unbanned with `fail2ban-client set sshd unbanip`.
+**Jail Configuration (`/etc/fail2ban/jail.local`):**
+```ini
+[nodejs-auth]
+enabled    = true
+filter     = nodejs-auth
+logpath    = /home/savez/vulnerable-nodejs/security.log
+maxretry   = 3
+bantime    = 300
+findtime   = 60
+backend    = polling
+ignoreip   =
+ignoreself = false
+```
+
+**Behaviour:** After 3 failed login attempts within 60 seconds, the attacker's IP is automatically banned for 5 minutes via firewall rules.
+
+**Test result:** After 4 failed login attempts, both `127.0.0.1` (Kali browser) and `192.168.64.1` (Mac IP) were successfully detected and banned. Verified with `fail2ban-client status nodejs-auth`, then manually unbanned with `fail2ban-client set nodejs-auth unbanip`.
 
 ### 2. API Security Hardening
 
