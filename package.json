@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "live": "nodemon ./bin/www",
-    "start": "node ./bin/www"
-  },
+  "live": "nodemon ./bin/www",
+  "start": "node ./bin/www",
+  "seed": "node seed.js"
+},
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cookie-parser": "~1.4.3",
