@@ -54,7 +54,7 @@ const loginLimiter = rateLimit({
 app.use('/users/session', loginLimiter);
 // CORS - only allow requests from our own frontend
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: ['http://localhost:3000', 'http://192.168.64.3:3000'],
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
