@@ -107,8 +107,8 @@ router.post('/session', async function (req, res) {
     // query for the username
     var db = req.db;
     var collection = db.get('userlist');
-    var user = await collection.findOne({ username: req.body.username, password: req.body.password });
-if (!user) {
+    var user = await collection.findOne({ username: req.body.username });
+if (!user || !(await require('bcrypt').compare(req.body.password, user.password))) {
   trackFailedLogin(req.body.username); // track failed login attempt
   const attempts = failedLoginAttempts[req.body.username]?.count || 0;
   if (attempts >= 5) {
