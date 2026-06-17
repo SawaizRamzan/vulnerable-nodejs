@@ -1,1 +1,100 @@
 {"level":"info","message":"Application started"}
+{"level":"info","message":"Application started"}
+{"level":"info","message":"Application started"}
+{"level":"info","message":"Application started"}
+{"level":"info","message":"Application started"}
+{"level":"info","message":"Application started"}
+{"level":"info","message":"Application started"}
+{"level":"info","message":"Application started"}
+{"level":"info","message":"Application started"}
+{"level":"info","message":"Application started"}
+{"level":"warn","message":"Failed login attempt for user: \"undefined\" from IP: ::ffff:127.0.0.1 - Total attempts: 1"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 1"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 2"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 3"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 4"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 5"}
+{"level":"info","message":"Application started"}
+{"level":"warn","message":"Failed login attempt for user: \"undefined\" from IP: ::ffff:127.0.0.1 - Total attempts: 1"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 1"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 2"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 3"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 4"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 5"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 6"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 7"}
+{"level":"info","message":"Application started"}
+{"level":"warn","message":"Failed login attempt for user: \"undefined\" from IP: ::ffff:127.0.0.1 - Total attempts: 1"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 1"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 2"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 3"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 4"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 5"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 6"}
+{"level":"info","message":"Application started","timestamp":"2026-06-16T21:02:31.590Z"}
+{"level":"warn","message":"Failed login attempt for user: \"undefined\" from IP: ::ffff:127.0.0.1 - Total attempts: 1","timestamp":"2026-06-16T21:02:46.599Z"}
+{"level":"warn","message":"Failed login attempt for user: \"undefined\" from IP: ::ffff:127.0.0.1 - Total attempts: 2","timestamp":"2026-06-16T21:02:47.930Z"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 1","timestamp":"2026-06-16T21:02:54.156Z"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 2","timestamp":"2026-06-16T21:02:58.920Z"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 3","timestamp":"2026-06-16T21:02:59.976Z"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 4","timestamp":"2026-06-16T21:03:01.112Z"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 5","timestamp":"2026-06-16T21:03:02.052Z"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 6","timestamp":"2026-06-16T21:03:04.255Z"}
+{"level":"info","message":"Application started","timestamp":"2026-06-16T21:08:52.649Z"}
+{"level":"warn","message":"Failed login attempt for user: \"undefined\" from IP: ::ffff:127.0.0.1 - Total attempts: 1","timestamp":"2026-06-16T21:09:02.421Z"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 1","timestamp":"2026-06-16T21:09:07.616Z"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 2","timestamp":"2026-06-16T21:09:09.351Z"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 3","timestamp":"2026-06-16T21:09:10.402Z"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 4","timestamp":"2026-06-16T21:09:11.661Z"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 5","timestamp":"2026-06-16T21:09:12.800Z"}
+{"level":"info","message":"Application started","timestamp":"2026-06-16T21:14:30.169Z"}
+{"level":"info","message":"Application started","timestamp":"2026-06-16T21:26:42.344Z"}
+{"level":"info","message":"Application started","timestamp":"2026-06-16T21:29:31.047Z"}
+{"level":"info","message":"Application started","timestamp":"2026-06-16T21:30:28.509Z"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::1 - Total attempts: 1","timestamp":"2026-06-16T21:37:45.520Z"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::1 - Total attempts: 2","timestamp":"2026-06-16T21:37:45.531Z"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::1 - Total attempts: 3","timestamp":"2026-06-16T21:37:45.538Z"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::1 - Total attempts: 4","timestamp":"2026-06-16T21:37:45.546Z"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::1 - Total attempts: 5","timestamp":"2026-06-16T21:41:56.075Z"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::1 - Total attempts: 6","timestamp":"2026-06-16T21:41:56.083Z"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::1 - Total attempts: 7","timestamp":"2026-06-16T21:41:56.090Z"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::1 - Total attempts: 8","timestamp":"2026-06-16T21:41:56.095Z"}
+{"level":"info","message":"Application started","timestamp":"2026-06-16T21:42:37.084Z"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 1","timestamp":"2026-06-16T21:42:56.749Z"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 2","timestamp":"2026-06-16T21:42:56.973Z"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 3","timestamp":"2026-06-16T21:42:57.192Z"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 4","timestamp":"2026-06-16T21:42:57.418Z"}
+{"level":"info","message":"Application started","timestamp":"2026-06-16T21:46:12.925Z"}
+{"level":"warn","message":"Failed login attempt for user: \"undefined\" from IP: ::1 - Total attempts: 1","timestamp":"2026-06-16T22:47:16.113Z"}
+{"level":"warn","message":"Failed login attempt for user: \"undefined\" from IP: ::1 - Total attempts: 2","timestamp":"2026-06-16T22:47:16.114Z"}
+{"level":"warn","message":"Failed login attempt for user: \"undefined\" from IP: ::1 - Total attempts: 3","timestamp":"2026-06-16T22:47:16.114Z"}
+{"level":"warn","message":"Failed login attempt for user: \"undefined\" from IP: ::ffff:127.0.0.1 - Total attempts: 4","timestamp":"2026-06-16T22:47:16.115Z"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:192.168.64.1 - Total attempts: 1","timestamp":"2026-06-16T22:47:55.533Z"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:192.168.64.1 - Total attempts: 2","timestamp":"2026-06-16T22:47:55.555Z"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:192.168.64.1 - Total attempts: 3","timestamp":"2026-06-16T22:47:55.569Z"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:192.168.64.1 - Total attempts: 4","timestamp":"2026-06-16T22:47:55.583Z"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 5","timestamp":"2026-06-16T22:51:31.417Z"}
+{"level":"warn","message":"Failed login attempt for user: \"xyz\" from IP: ::ffff:127.0.0.1 - Total attempts: 6","timestamp":"2026-06-16T22:51:32.203Z"}
+{"level":"info","message":"Application started","timestamp":"2026-06-16T22:52:08.993Z"}
+{"level":"warn","message":"Failed login attempt for user: \"undefined\" from IP: ::ffff:127.0.0.1 - Total attempts: 1","timestamp":"2026-06-16T22:52:15.046Z"}
+{"level":"info","message":"Application started","timestamp":"2026-06-16T23:55:54.946Z"}
+{"level":"warn","message":"Failed login attempt for user: \"undefined\" from IP: ::ffff:127.0.0.1 - Total attempts: 1","timestamp":"2026-06-16T23:56:49.680Z"}
+{"level":"warn","message":"Failed login attempt for user: \"undefined\" from IP: ::ffff:127.0.0.1 - Total attempts: 2","timestamp":"2026-06-16T23:56:57.392Z"}
+{"level":"warn","message":"Failed login attempt for user: \"undefined\" from IP: ::ffff:127.0.0.1 - Total attempts: 3","timestamp":"2026-06-17T00:51:14.293Z"}
+{"level":"warn","message":"Failed login attempt for user: \"admin\" from IP: ::1 - Total attempts: 1","timestamp":"2026-06-17T01:08:08.873Z"}
+{"level":"warn","message":"Failed login attempt for user: \"admin\" from IP: ::1 - Total attempts: 2","timestamp":"2026-06-17T01:08:08.932Z"}
+{"level":"warn","message":"Failed login attempt for user: \"admin\" from IP: ::1 - Total attempts: 3","timestamp":"2026-06-17T01:08:09.400Z"}
+{"level":"warn","message":"Failed login attempt for user: \"2956\" from IP: ::1 - Total attempts: 1","timestamp":"2026-06-17T01:08:09.412Z"}
+{"level":"warn","message":"Failed login attempt for user: \"admin,(.',)\"(,.\" from IP: ::1 - Total attempts: 1","timestamp":"2026-06-17T01:08:09.418Z"}
+{"level":"warn","message":"Failed login attempt for user: \"admin'KWrnYy<'\">SsrFcD\" from IP: ::1 - Total attempts: 1","timestamp":"2026-06-17T01:08:09.423Z"}
+{"level":"warn","message":"Failed login attempt for user: \"admin') AND 6352=9092 AND ('NecT'='NecT\" from IP: ::1 - Total attempts: 1","timestamp":"2026-06-17T01:08:09.432Z"}
+{"level":"warn","message":"Failed login attempt for user: \"admin')) AND 4636=7191 AND (('IjqK'='IjqK\" from IP: ::1 - Total attempts: 1","timestamp":"2026-06-17T01:08:09.437Z"}
+{"level":"warn","message":"Failed login attempt for user: \"admin' AND 7191=8873 AND 'DcJi'='DcJi\" from IP: ::1 - Total attempts: 1","timestamp":"2026-06-17T01:08:09.442Z"}
+{"level":"warn","message":"Failed login attempt for user: \"admin') AND 3869=3197 AND ('PYLd' LIKE 'PYLd\" from IP: ::1 - Total attempts: 1","timestamp":"2026-06-17T01:08:09.447Z"}
+{"level":"info","message":"Application started","timestamp":"2026-06-17T02:01:30.135Z"}
+{"level":"warn","message":"Failed login attempt for user: \"\" from IP: ::ffff:127.0.0.1 - Total attempts: 1","timestamp":"2026-06-17T02:03:32.409Z"}
+{"level":"warn","message":"Failed login attempt for user: \"{\"$gt\": \"\"}\" from IP: ::ffff:127.0.0.1 - Total attempts: 1","timestamp":"2026-06-17T02:03:52.616Z"}
+{"level":"info","message":"Application started","timestamp":"2026-06-17T02:15:50.450Z"}
+{"level":"warn","message":"Failed login attempt for user: \"\" from IP: ::ffff:127.0.0.1 - Total attempts: 1","timestamp":"2026-06-17T02:16:09.478Z"}
+{"level":"warn","message":"Failed login attempt for user: \"admin\" from IP: ::1 - Total attempts: 1","timestamp":"2026-06-17T02:20:04.010Z"}
+{"level":"warn","message":"Failed login attempt for user: \"admin\" from IP: ::1 - Total attempts: 2","timestamp":"2026-06-17T02:23:21.943Z"}

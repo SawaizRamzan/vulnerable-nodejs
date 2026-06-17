@@ -10,7 +10,7 @@ function verifyToken(req, res, next) {
     return res.status(401).json({ msg: 'Access denied. No token provided.' });
   }
   try {
-    const verified = jwt.verify(token, 'your-secret-key');
+    const verified = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
     req.user = verified;
     next();
   } catch (err) {
@@ -40,7 +40,7 @@ router.get('/userlist', function (req, res) {
   }
   var db = req.db;
   var collection = db.get('userlist');
-  collection.find({}, {}, function (e, docs) {
+  collection.find({}, { fields: { password: 0 } }, function (e, docs) {
     res.json(docs);
   });
 });
@@ -49,7 +49,8 @@ router.get('/userlist', function (req, res) {
 router.get('/api/userlist', verifyToken, function (req, res) {
   var db = req.db;
   var collection = db.get('userlist');
-  collection.find({}, {}, function (e, docs) {
+  
+collection.find({}, { fields: { password: 0 } }, function (e, docs) {
     res.json(docs);
   });
 });
@@ -105,17 +106,21 @@ router.post('/session', async function (req, res) {
     // query for the username
     var db = req.db;
     var collection = db.get('userlist');
-    var user = await collection.findOne({ username: req.body.username });
-if (!user || !(await require('bcrypt').compare(req.body.password, user.password))) {
-  trackFailedLogin(req.body.username, req.ip); // track failed login attempt
-  const attempts = failedLoginAttempts[req.body.username]?.count || 0;
+const username = typeof req.body.username === 'string' ? req.body.username : '';
+
+const password = typeof req.body.password === 'string' ? req.body.password : '';	
+
+    var user = await collection.findOne({ username: username });
+if (!user || !(await require('bcrypt').compare(password, user.password))) {
+  trackFailedLogin(username, req.ip); // track failed login attempt
+  const attempts = failedLoginAttempts[username]?.count || 0;
   if (attempts >= 5) {
     return res.status(429).send({ msg: "Account temporarily locked due to multiple failed attempts." });
   }
   res.send({ msg: "unauthorized" });
 } else {
   // reset counter on successful login
-  delete failedLoginAttempts[req.body.username];
+  delete failedLoginAttempts[username];
       // sucessfully login
       try {
         req.session.regenerate(() => {
@@ -125,7 +130,7 @@ if (!user || !(await require('bcrypt').compare(req.body.password, user.password)
           );
           // If a match, return 200:{ username }
           const jwt = require('jsonwebtoken');
-const token = jwt.sign({ id: user._id }, 'your-secret-key');
+const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET || 'your-secret-key', { expiresIn: '1h' });
 res.status(200).send({
   username: user.username,
   token: token,
@@ -168,7 +173,13 @@ router.put('/modify', async function (req, res) {
   } else {
     var db = req.db;
     var collection = db.get('userlist');
-    var query = req.body;
+    const allowedFields = ['email', 'fullname', 'age', 'location'];
+const query = {};
+allowedFields.forEach(field => {
+  if (req.body[field] !== undefined) {
+    query[field] = req.body[field];
+  }
+});
     // update the corresponding fields
     collection.findOneAndUpdate({ 'username': req.session.user.username }, { $set: query }, function (err, result) {
       // update session too
