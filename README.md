@@ -223,6 +223,9 @@ git checkout internship
 # Install dependencies
 npm install
 
+# Seed the database (creates default admin user)
+npm run seed
+
 # Start the application
 npm start
 ```
@@ -231,7 +234,9 @@ App runs at `http://localhost:3000`
 
 **Default credentials:**
 - Username: `admin`
-- Password: `password` (hashed with bcrypt on internship branch)
+- Password: `password`
+
+> The seed script hashes the password with bcrypt before storing it. Run `npm run seed` only once — it skips if the admin user already exists.
 
 ---
 
