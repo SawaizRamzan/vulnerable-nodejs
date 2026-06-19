@@ -1,5 +1,11 @@
 // Userlist data array for filling in info box
 var userListData = [];
+// Read CSRF token from meta tag and send with every AJAX request
+$.ajaxSetup({
+  headers: {
+    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+  }
+});
 
 // DOM Ready =============================================================
 $(document).ready(function () {
@@ -167,7 +173,7 @@ function initUserSession() {
 }
 
 // function that logins the user when clicks login button
-function loginUser() {
+function loginUser(event) {
   event.preventDefault();
   var user = {
     'username': $('#login fieldset input#loginUserName').val(),
@@ -192,7 +198,7 @@ function loginUser() {
 };
 
 // function that ends a user session
-function logoutUser() {
+function logoutUser(event) {
   event.preventDefault();
   $.ajax({
     type: 'DELETE',
@@ -241,7 +247,7 @@ function populateUserInfo() {
 };
 
 // modify uservalue
-function modifyUser() {
+function modifyUser(event) {
   event.preventDefault();
   var modifyUser = {
     'password': $('#modifyPassword').val(),

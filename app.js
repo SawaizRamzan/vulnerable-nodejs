@@ -10,6 +10,10 @@ let logger = require('morgan');
 const winstonLogger = require('./logger'); //add logging with winston
 // Database
 let mongo = require('mongodb');
+
+const csrf = require('csurf');
+const csrfProtection = csrf({ cookie: false });
+
 let monk = require('monk');
 let db = monk('localhost:27017/nodetest2');
 
@@ -82,6 +86,12 @@ app.use(function(req,res,next){
     req.db = db;
     next();
 });
+app.use(csrfProtection);
+app.use(function(req, res, next) {
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
+
 
 app.use('/', adminRouter);
 app.use('/users', usersRouter);
@@ -89,6 +99,14 @@ app.use('/', loginRouter);
 app.use('/', pikachuRouter);
 app.use('/', orderRouter);
 app.use('/', phpRouter);
+
+// CSRF error handler
+app.use(function(err, req, res, next) {
+  if (err.code === 'EBADCSRFTOKEN') {
+    return res.status(403).json({ msg: 'Invalid CSRF token. Request blocked.' });
+  }
+  next(err);
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
