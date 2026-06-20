@@ -15,7 +15,7 @@ const csrf = require('csurf');
 const csrfProtection = csrf({ cookie: false });
 
 let monk = require('monk');
-let db = monk('localhost:27017/nodetest2');
+let db = monk('admin:admin123@localhost:27017/nodetest2?authSource=admin');
 
 
 let adminRouter = require('./routes/admin');
@@ -31,7 +31,7 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "https://ajax.googleapis.com"],
+      scriptSrc: ["'self'"],
       styleSrc: ["'self'", "'unsafe-inline'"],
       imgSrc: ["'self'", "data:"],
       fontSrc: ["'self'"],
