@@ -40,7 +40,7 @@ router.get('/userlist', function (req, res) {
   }
   var db = req.db;
   var collection = db.get('userlist');
-  collection.find({}, { fields: { password: 0 } }, function (e, docs) {
+  collection.find({}, { fields: { password: 0, card: 0 } }, function (e, docs) {
     res.json(docs);
   });
 });
@@ -50,7 +50,7 @@ router.get('/api/userlist', verifyToken, function (req, res) {
   var db = req.db;
   var collection = db.get('userlist');
   
-collection.find({}, { fields: { password: 0 } }, function (e, docs) {
+collection.find({}, { fields: { password: 0, card: 0 } }, function (e, docs) {
     res.json(docs);
   });
 });
