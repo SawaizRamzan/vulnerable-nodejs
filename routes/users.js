@@ -1,13 +1,56 @@
 var express = require('express');
 var router = express.Router();
 
+// JWT verification middleware
+const jwt = require('jsonwebtoken');
+function verifyToken(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (!token) {
+    return res.status(401).json({ msg: 'Access denied. No token provided.' });
+  }
+  try {
+    const verified = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
+    req.user = verified;
+    next();
+  } catch (err) {
+    return res.status(403).json({ msg: 'Invalid or expired token.' });
+  }
+}
+
+// Failed login attempt tracker
+const winstonLogger = require('../logger');
+const failedLoginAttempts = {};
+function trackFailedLogin(username, ip) {
+  if (!failedLoginAttempts[username]) {
+    failedLoginAttempts[username] = { count: 0, lastAttempt: null };
+  }
+  failedLoginAttempts[username].count += 1;
+  failedLoginAttempts[username].lastAttempt = new Date();
+
+  winstonLogger.warn(`Failed login attempt for user: "${username}" from IP: ${ip} - Total attempts: ${failedLoginAttempts[username].count}`);
+}
+
 // -------------------------------admin support-------------------------------
 
 /* GET userlist. */
 router.get('/userlist', function (req, res) {
+  if (!req.session.user) {
+    return res.status(401).json({ msg: 'Access denied. Please login first.' });
+  }
   var db = req.db;
   var collection = db.get('userlist');
-  collection.find({}, {}, function (e, docs) {
+  collection.find({}, { fields: { password: 0, card: 0 } }, function (e, docs) {
+    res.json(docs);
+  });
+});
+
+/* GET userlist via JWT - for external API access */
+router.get('/api/userlist', verifyToken, function (req, res) {
+  var db = req.db;
+  var collection = db.get('userlist');
+  
+collection.find({}, { fields: { password: 0, card: 0 } }, function (e, docs) {
     res.json(docs);
   });
 });
@@ -63,10 +106,21 @@ router.post('/session', async function (req, res) {
     // query for the username
     var db = req.db;
     var collection = db.get('userlist');
-    var user = await collection.findOne({ username: req.body.username, password: req.body.password });
-    if (!user) {
-      res.send({ msg: "unauthorized" });
-    } else {
+const username = typeof req.body.username === 'string' ? req.body.username : '';
+
+const password = typeof req.body.password === 'string' ? req.body.password : '';	
+
+    var user = await collection.findOne({ username: username });
+if (!user || !(await require('bcrypt').compare(password, user.password))) {
+  trackFailedLogin(username, req.ip); // track failed login attempt
+  const attempts = failedLoginAttempts[username]?.count || 0;
+  if (attempts >= 5) {
+    return res.status(429).send({ msg: "Account temporarily locked due to multiple failed attempts." });
+  }
+  res.send({ msg: "unauthorized" });
+} else {
+  // reset counter on successful login
+  delete failedLoginAttempts[username];
       // sucessfully login
       try {
         req.session.regenerate(() => {
@@ -76,7 +130,7 @@ router.post('/session', async function (req, res) {
           );
           // If a match, return 200:{ username }
           const jwt = require('jsonwebtoken');
-const token = jwt.sign({ id: user._id }, 'your-secret-key');
+const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET || 'your-secret-key', { expiresIn: '1h' });
 res.status(200).send({
   username: user.username,
   token: token,
@@ -119,7 +173,13 @@ router.put('/modify', async function (req, res) {
   } else {
     var db = req.db;
     var collection = db.get('userlist');
-    var query = req.body;
+    const allowedFields = ['email', 'fullname', 'age', 'location'];
+const query = {};
+allowedFields.forEach(field => {
+  if (req.body[field] !== undefined) {
+    query[field] = req.body[field];
+  }
+});
     // update the corresponding fields
     collection.findOneAndUpdate({ 'username': req.session.user.username }, { $set: query }, function (err, result) {
       // update session too

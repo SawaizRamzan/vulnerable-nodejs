@@ -1,5 +1,7 @@
 let createError = require('http-errors');
 let express = require('express');
+const cors = require('cors'); // restrict cross-origin access
+const rateLimit = require('express-rate-limit'); //add rate limiting to prevent brute-force attacks
 let helmet = require('helmet'); //add security headers 
 let session = require('express-session');
 let path = require('path');
@@ -8,8 +10,12 @@ let logger = require('morgan');
 const winstonLogger = require('./logger'); //add logging with winston
 // Database
 let mongo = require('mongodb');
+
+const csrf = require('csurf');
+const csrfProtection = csrf({ cookie: false });
+
 let monk = require('monk');
-let db = monk('localhost:27017/nodetest2');
+let db = monk('admin:admin123@localhost:27017/nodetest2?authSource=admin');
 
 
 let adminRouter = require('./routes/admin');
@@ -25,11 +31,38 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "https://ajax.googleapis.com"],
+      scriptSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:"],
+      fontSrc: ["'self'"],
+      objectSrc: ["'none'"],
     }
   },
+  hsts: {
+    maxAge: 31536000,
+    includeSubDomains: true,
+    preload: true
+  },
   crossOriginResourcePolicy: false
-})); //add security header and whitelist ajax.googleapis.com for loading external scripts
+})); // Disable Cross-Origin-Resource-Policy to allow loading images from external sources
+
+// Rate limiting - max 10 requests per 15 minutes on login
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  message: 'Too many login attempts. Please try again after 15 minutes.',
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+app.use('/users/session', loginLimiter);
+// CORS - only allow requests from our own frontend
+const corsOptions = {
+  origin: ['http://localhost:3000', 'http://192.168.64.3:3000'],
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+app.use(cors(corsOptions));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -53,6 +86,12 @@ app.use(function(req,res,next){
     req.db = db;
     next();
 });
+app.use(csrfProtection);
+app.use(function(req, res, next) {
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
+
 
 app.use('/', adminRouter);
 app.use('/users', usersRouter);
@@ -60,6 +99,14 @@ app.use('/', loginRouter);
 app.use('/', pikachuRouter);
 app.use('/', orderRouter);
 app.use('/', phpRouter);
+
+// CSRF error handler
+app.use(function(err, req, res, next) {
+  if (err.code === 'EBADCSRFTOKEN') {
+    return res.status(403).json({ msg: 'Invalid CSRF token. Request blocked.' });
+  }
+  next(err);
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
