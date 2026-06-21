@@ -1,10 +1,11 @@
 let createError = require('http-errors');
 let express = require('express');
+let helmet = require('helmet'); //add security headers 
 let session = require('express-session');
 let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
-
+const winstonLogger = require('./logger'); //add logging with winston
 // Database
 let mongo = require('mongodb');
 let monk = require('monk');
@@ -20,6 +21,15 @@ let orderRouter = require('./routes/order');
 let phpRouter = require('./routes/php');
 
 let app = express();
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "https://ajax.googleapis.com"],
+    }
+  },
+  crossOriginResourcePolicy: false
+})); //add security header and whitelist ajax.googleapis.com for loading external scripts
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
